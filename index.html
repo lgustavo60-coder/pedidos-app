@@ -4,329 +4,89 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0f0f0f" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <title>Pedidos</title>
   <link rel="manifest" href="manifest.json" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0f0f0f;
-      --surface: #1a1a1a;
-      --surface2: #242424;
-      --border: #2e2e2e;
-      --accent: #e8ff57;
-      --accent2: #57c8ff;
-      --accent3: #ff7c57;
-      --text: #f0f0f0;
-      --text2: #888;
-      --text3: #555;
-      --green: #4ade80;
-      --red: #f87171;
-      --radius: 12px;
-      --font-display: 'Syne', sans-serif;
-      --font-mono: 'DM Mono', monospace;
+      --bg: #0f0f0f; --surface: #1a1a1a; --surface2: #242424;
+      --border: #2e2e2e; --accent: #e8ff57; --accent2: #57c8ff;
+      --accent3: #ff7c57; --text: #f0f0f0; --text2: #888; --text3: #555;
+      --green: #4ade80; --red: #f87171; --radius: 12px;
+      --font-display: 'Syne', sans-serif; --font-mono: 'DM Mono', monospace;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-mono);
-      min-height: 100dvh;
-      overflow-x: hidden;
-    }
-
-    /* HEADER */
-    header {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 20px 12px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    header h1 {
-      font-family: var(--font-display);
-      font-size: 22px; font-weight: 800;
-      letter-spacing: -0.5px;
-    }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-mono); min-height: 100dvh; }
+    header { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 16px 20px 12px; display: flex; align-items: center; justify-content: space-between; }
+    header h1 { font-family: var(--font-display); font-size: 22px; font-weight: 800; }
     header h1 span { color: var(--accent); }
-
-    .config-btn {
-      background: none; border: 1px solid var(--border);
-      color: var(--text2); padding: 6px 12px;
-      border-radius: 8px; font-family: var(--font-mono);
-      font-size: 12px; cursor: pointer;
-      transition: all .2s;
-    }
-    .config-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* TABS */
-    .tabs {
-      display: flex; gap: 0;
-      padding: 16px 20px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .tab {
-      padding: 8px 16px 12px;
-      font-family: var(--font-mono); font-size: 13px;
-      color: var(--text3); cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: all .2s; white-space: nowrap;
-    }
+    .config-btn { background: none; border: 1px solid var(--border); color: var(--text2); padding: 6px 12px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; cursor: pointer; }
+    .tabs { display: flex; padding: 16px 20px 0; border-bottom: 1px solid var(--border); }
+    .tab { padding: 8px 16px 12px; font-family: var(--font-mono); font-size: 13px; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
     .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-    .tab .badge {
-      display: inline-block; margin-left: 6px;
-      background: var(--surface2); color: var(--text2);
-      border-radius: 10px; padding: 1px 7px; font-size: 11px;
-    }
+    .tab .badge { display: inline-block; margin-left: 6px; background: var(--surface2); color: var(--text2); border-radius: 10px; padding: 1px 7px; font-size: 11px; }
     .tab.active .badge { background: var(--accent); color: #000; }
-
-    /* MAIN CONTENT */
     main { padding: 20px; max-width: 600px; margin: 0 auto; }
-
-    /* NUEVO PEDIDO FORM */
-    .form-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .form-card h2 {
-      font-family: var(--font-display);
-      font-size: 16px; font-weight: 700;
-      margin-bottom: 16px; color: var(--text);
-    }
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+    .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+    .form-card h2 { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .form-grid .full { grid-column: 1 / -1; }
-    label {
-      display: block;
-      font-size: 11px; color: var(--text2);
-      margin-bottom: 5px; letter-spacing: .05em; text-transform: uppercase;
-    }
-    input {
-      width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: var(--font-mono); font-size: 14px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      outline: none;
-      transition: border-color .2s;
-    }
-    input:focus { border-color: var(--accent); }
+    label { display: block; font-size: 11px; color: var(--text2); margin-bottom: 5px; letter-spacing: .05em; text-transform: uppercase; }
+    input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 14px; padding: 10px 12px; border-radius: 8px; outline: none; transition: border-color .2s; }
+    input:focus, select:focus { border-color: var(--accent); }
     input::placeholder { color: var(--text3); }
-    select {
-      width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: var(--font-mono); font-size: 14px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      outline: none;
-      transition: border-color .2s;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      cursor: pointer;
-    }
-    select:focus { border-color: var(--accent); }
+    select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer; }
     select option { background: var(--surface2); color: var(--text); }
-
-    .btn-primary {
-      width: 100%; margin-top: 16px;
-      background: var(--accent); color: #000;
-      border: none; border-radius: 8px;
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 14px; padding: 12px;
-      cursor: pointer; letter-spacing: .03em;
-      transition: all .2s;
-    }
-    .btn-primary:hover { background: #d4eb3a; }
+    .btn-primary { width: 100%; margin-top: 16px; background: var(--accent); color: #000; border: none; border-radius: 8px; font-family: var(--font-display); font-weight: 700; font-size: 14px; padding: 12px; cursor: pointer; }
     .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
-
-    /* STATS BAR */
-    .stats {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 10px; margin-bottom: 20px;
-    }
-    .stat {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 12px;
-      text-align: center;
-    }
-    .stat-num {
-      font-family: var(--font-display);
-      font-size: 26px; font-weight: 800;
-      line-height: 1;
-    }
-    .stat-label { font-size: 10px; color: var(--text2); margin-top: 4px; letter-spacing: .05em; text-transform: uppercase; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 12px; text-align: center; }
+    .stat-num { font-family: var(--font-display); font-size: 26px; font-weight: 800; line-height: 1; }
+    .stat-label { font-size: 10px; color: var(--text2); margin-top: 4px; text-transform: uppercase; }
     .stat.pedidos .stat-num { color: var(--accent2); }
     .stat.entregas .stat-num { color: var(--accent3); }
     .stat.pagos .stat-num { color: var(--accent); }
-
-    /* PEDIDO CARD */
-    .pedido-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 10px;
-      transition: border-color .2s;
-    }
-    .pedido-card:hover { border-color: var(--surface2); }
-    .pedido-top {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 10px;
-    }
-    .pedido-cliente {
-      font-family: var(--font-display);
-      font-size: 15px; font-weight: 700;
-    }
-    .pedido-monto {
-      font-family: var(--font-display);
-      font-size: 16px; font-weight: 800;
-      color: var(--accent);
-    }
-    .pedido-detail {
-      font-size: 12px; color: var(--text2); margin-bottom: 12px;
-    }
+    .pedido-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+    .pedido-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .pedido-cliente { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+    .pedido-monto { font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--accent); }
+    .pedido-detail { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
     .pedido-detail span { color: var(--text); }
     .pedido-fecha { font-size: 10px; color: var(--text3); margin-bottom: 12px; }
-
     .pedido-actions { display: flex; gap: 8px; }
-    .action-btn {
-      flex: 1; padding: 8px 10px;
-      border-radius: 8px; font-family: var(--font-mono); font-size: 11px;
-      cursor: pointer; border: 1px solid; transition: all .2s;
-      display: flex; align-items: center; justify-content: center; gap: 5px;
-    }
-    .action-btn.entregado-btn {
-      background: transparent; border-color: var(--accent3); color: var(--accent3);
-    }
-    .action-btn.entregado-btn.done {
-      background: var(--accent3); color: #000; cursor: default;
-    }
-    .action-btn.pagado-btn {
-      background: transparent; border-color: var(--accent); color: var(--accent);
-    }
-    .action-btn.pagado-btn.done {
-      background: var(--accent); color: #000; cursor: default;
-    }
+    .action-btn { flex: 1; padding: 8px 10px; border-radius: 8px; font-family: var(--font-mono); font-size: 11px; cursor: pointer; border: 1px solid; display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .action-btn.entregado-btn { background: transparent; border-color: var(--accent3); color: var(--accent3); }
+    .action-btn.entregado-btn.done { background: var(--accent3); color: #000; cursor: default; }
+    .action-btn.pagado-btn { background: transparent; border-color: var(--accent); color: var(--accent); }
+    .action-btn.pagado-btn.done { background: var(--accent); color: #000; cursor: default; }
     .action-btn:disabled { opacity: .6; cursor: not-allowed; }
-
-    /* EMPTY STATE */
-    .empty {
-      text-align: center; padding: 60px 20px;
-      color: var(--text3); font-size: 13px;
-    }
+    .empty { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 13px; }
     .empty-icon { font-size: 40px; margin-bottom: 12px; }
-
-    /* CONFIG MODAL */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,.85);
-      display: flex; align-items: center; justify-content: center;
-      padding: 20px;
-    }
+    .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.85); display: flex; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay.hidden { display: none; }
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px; width: 100%; max-width: 460px;
-    }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; width: 100%; max-width: 460px; }
     .modal h2 { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 6px; }
     .modal p { font-size: 12px; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
     .modal input { margin-bottom: 12px; }
     .modal-actions { display: flex; gap: 10px; margin-top: 8px; }
-    .btn-secondary {
-      flex: 1; padding: 11px;
-      background: transparent; border: 1px solid var(--border);
-      color: var(--text2); border-radius: 8px;
-      font-family: var(--font-mono); font-size: 13px; cursor: pointer;
-    }
-
-    /* TOAST */
-    .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-      background: var(--accent); color: #000;
-      font-family: var(--font-display); font-weight: 700; font-size: 13px;
-      padding: 10px 20px; border-radius: 100px;
-      transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-      z-index: 300; white-space: nowrap;
-    }
+    .btn-secondary { flex: 1; padding: 11px; background: transparent; border: 1px solid var(--border); color: var(--text2); border-radius: 8px; font-family: var(--font-mono); font-size: 13px; cursor: pointer; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--accent); color: #000; font-family: var(--font-display); font-weight: 700; font-size: 13px; padding: 10px 20px; border-radius: 100px; transition: transform .3s cubic-bezier(.34,1.56,.64,1); z-index: 300; white-space: nowrap; }
     .toast.show { transform: translateX(-50%) translateY(0); }
-
-    /* LOADING */
-    .loading {
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; padding: 40px; color: var(--text3); font-size: 13px;
-    }
-    .spinner {
-      width: 16px; height: 16px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-    }
+    .loading { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 40px; color: var(--text3); font-size: 13px; }
+    .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* PERIOD NAV */
-    .period-nav {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 10px 14px;
-    }
-    .period-label {
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 14px; color: var(--text);
-    }
-    .nav-btn {
-      background: var(--surface2); border: 1px solid var(--border);
-      color: var(--text2); padding: 6px 12px; border-radius: 8px;
-      font-family: var(--font-mono); font-size: 12px; cursor: pointer;
-      transition: all .2s;
-    }
-    .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+    .filter-btn { padding: 6px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; white-space: nowrap; }
+    .filter-btn.active { background: var(--surface2); color: var(--text); border-color: var(--text3); }
+    .period-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; }
+    .period-label { font-family: var(--font-display); font-weight: 700; font-size: 14px; }
+    .nav-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text2); padding: 6px 12px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; cursor: pointer; }
     .nav-btn:disabled { opacity: .3; cursor: not-allowed; }
-
-    .period-stats { margin-bottom: 10px; }
-    .period-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
+    .period-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
     .period-row:last-child { border-bottom: none; }
     .period-row-label { color: var(--text2); }
     .period-row-val { font-family: var(--font-display); font-weight: 700; }
-
-    /* FILTER BAR */
-    .filter-bar {
-      display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto;
-      padding-bottom: 4px;
-    }
-    .filter-btn {
-      padding: 6px 12px; border-radius: 100px;
-      font-family: var(--font-mono); font-size: 11px;
-      border: 1px solid var(--border); background: transparent;
-      color: var(--text2); cursor: pointer; white-space: nowrap;
-      transition: all .2s;
-    }
-    .filter-btn.active { background: var(--surface2); color: var(--text); border-color: var(--text3); }
   </style>
 </head>
 <body>
@@ -338,14 +98,12 @@
 
 <div class="tabs">
   <div class="tab active" onclick="switchTab('nuevo')" id="tab-nuevo">+ Nuevo</div>
-  <div class="tab" onclick="switchTab('lista')" id="tab-lista">
-    Lista <span class="badge" id="badge-lista">0</span>
-  </div>
+  <div class="tab" onclick="switchTab('lista')" id="tab-lista">Lista <span class="badge" id="badge-lista">0</span></div>
   <div class="tab" onclick="switchTab('resumen')" id="tab-resumen">Resumen</div>
 </div>
 
 <main>
-  <!-- NUEVO PEDIDO -->
+  <!-- NUEVO -->
   <div id="view-nuevo">
     <div class="form-card">
       <h2>Nuevo pedido</h2>
@@ -394,48 +152,26 @@
 
   <!-- RESUMEN -->
   <div id="view-resumen" style="display:none">
-
-    <!-- Sub-tabs resumen -->
-    <div class="tabs" style="padding:0 0 0 0; margin-bottom:16px; border-bottom:1px solid var(--border)">
+    <div class="tabs" style="padding:0; margin-bottom:16px; border-bottom:1px solid var(--border)">
       <div class="tab active" onclick="switchResumen('general')" id="rtab-general">General</div>
       <div class="tab" onclick="switchResumen('semanal')" id="rtab-semanal">Semanal</div>
       <div class="tab" onclick="switchResumen('mensual')" id="rtab-mensual">Mensual</div>
     </div>
 
-    <!-- GENERAL -->
     <div id="rview-general">
       <div class="stats">
-        <div class="stat pedidos">
-          <div class="stat-num" id="stat-pendientes">0</div>
-          <div class="stat-label">Sin entregar</div>
-        </div>
-        <div class="stat entregas">
-          <div class="stat-num" id="stat-entregados">0</div>
-          <div class="stat-label">Sin cobrar</div>
-        </div>
-        <div class="stat pagos">
-          <div class="stat-num" id="stat-pagados">0</div>
-          <div class="stat-label">Cobrados</div>
-        </div>
+        <div class="stat pedidos"><div class="stat-num" id="stat-pendientes">0</div><div class="stat-label">Sin entregar</div></div>
+        <div class="stat entregas"><div class="stat-num" id="stat-entregados">0</div><div class="stat-label">Sin cobrar</div></div>
+        <div class="stat pagos"><div class="stat-num" id="stat-pagados">0</div><div class="stat-label">Cobrados</div></div>
       </div>
       <div class="form-card" style="margin-bottom:10px">
         <h2 style="margin-bottom:14px; font-size:14px; color:var(--text2)">TOTALES</h2>
-        <div style="display:flex; justify-content:space-between; margin-bottom:10px">
-          <span style="font-size:13px; color:var(--text2)">Total pedidos</span>
-          <span style="font-family:var(--font-display); font-weight:700" id="total-pedidos-monto">$0</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:10px">
-          <span style="font-size:13px; color:var(--text2)">Cobrado</span>
-          <span style="font-family:var(--font-display); font-weight:700; color:var(--green)" id="total-cobrado">$0</span>
-        </div>
-        <div style="display:flex; justify-content:space-between">
-          <span style="font-size:13px; color:var(--text2)">Pendiente de cobro</span>
-          <span style="font-family:var(--font-display); font-weight:700; color:var(--accent3)" id="total-pendiente">$0</span>
-        </div>
+        <div class="period-row"><span class="period-row-label">Total pedidos</span><span class="period-row-val" id="total-pedidos-monto">$0</span></div>
+        <div class="period-row"><span class="period-row-label">Cobrado</span><span class="period-row-val" style="color:var(--green)" id="total-cobrado">$0</span></div>
+        <div class="period-row"><span class="period-row-label">Pendiente</span><span class="period-row-val" style="color:var(--accent3)" id="total-pendiente">$0</span></div>
       </div>
     </div>
 
-    <!-- SEMANAL -->
     <div id="rview-semanal" style="display:none">
       <div class="period-nav">
         <button class="nav-btn" onclick="cambiarSemana(-1)">← Ant</button>
@@ -445,7 +181,6 @@
       <div id="stats-semana"></div>
     </div>
 
-    <!-- MENSUAL -->
     <div id="rview-mensual" style="display:none">
       <div class="period-nav">
         <button class="nav-btn" onclick="cambiarMes(-1)">← Ant</button>
@@ -459,11 +194,10 @@
   </div>
 </main>
 
-<!-- CONFIG MODAL -->
 <div class="modal-overlay hidden" id="modal-config">
   <div class="modal">
     <h2>Configuración</h2>
-    <p>Pegá la URL de tu Google Apps Script. La encontrás después de hacer el deploy como aplicación web.</p>
+    <p>Pegá la URL de tu Google Apps Script.</p>
     <label>URL del Apps Script</label>
     <input id="config-url" type="url" placeholder="https://script.google.com/macros/s/..." />
     <div class="modal-actions">
@@ -473,417 +207,300 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-  const STORAGE_KEY = 'pedidos_script_url';
-  let pedidos = [];
-  let filtroActual = 'todos';
-  let costos = {};
+const STORAGE_KEY = 'pedidos_script_url';
+let pedidos = [];
+let costos = {};
+let filtroActual = 'todos';
+let resumenTab = 'general';
+let semanaOffset = 0;
+let mesOffset = 0;
 
-  // ─── CONFIG ───────────────────────────────────────────────
-  function openConfig() {
-    document.getElementById('config-url').value = localStorage.getItem(STORAGE_KEY) || '';
-    document.getElementById('modal-config').classList.remove('hidden');
-  }
-  function closeConfig() {
-    document.getElementById('modal-config').classList.add('hidden');
-  }
-  function saveConfig() {
-    const url = document.getElementById('config-url').value.trim();
-    if (!url) return showToast('Ingresá una URL válida');
-    localStorage.setItem(STORAGE_KEY, url);
-    closeConfig();
-    showToast('✓ URL guardada');
-    cargarPedidos();
-  }
-  function getUrl() { return localStorage.getItem(STORAGE_KEY); }
+function openConfig() {
+  document.getElementById('config-url').value = localStorage.getItem(STORAGE_KEY) || '';
+  document.getElementById('modal-config').classList.remove('hidden');
+}
+function closeConfig() { document.getElementById('modal-config').classList.add('hidden'); }
+function saveConfig() {
+  const url = document.getElementById('config-url').value.trim();
+  if (!url) return showToast('Ingresá una URL válida');
+  localStorage.setItem(STORAGE_KEY, url);
+  closeConfig();
+  showToast('✓ URL guardada');
+  cargarPedidos();
+}
+function getUrl() { return localStorage.getItem(STORAGE_KEY); }
 
-  // ─── TABS ─────────────────────────────────────────────────
-  function switchTab(tab) {
-    ['nuevo','lista','resumen'].forEach(t => {
-      document.getElementById('view-' + t).style.display = t === tab ? 'block' : 'none';
-      document.getElementById('tab-' + t).classList.toggle('active', t === tab);
-    });
-    if (tab === 'lista' || tab === 'resumen') cargarPedidos();
-  }
+function switchTab(tab) {
+  ['nuevo','lista','resumen'].forEach(function(t) {
+    document.getElementById('view-' + t).style.display = t === tab ? 'block' : 'none';
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'lista' || tab === 'resumen') cargarPedidos();
+}
 
-  // ─── TOAST ────────────────────────────────────────────────
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
+function switchResumen(tab) {
+  resumenTab = tab;
+  ['general','semanal','mensual'].forEach(function(t) {
+    document.getElementById('rview-' + t).style.display = t === tab ? 'block' : 'none';
+    document.getElementById('rtab-' + t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'semanal') renderSemanal();
+  if (tab === 'mensual') renderMensual();
+}
 
-  // ─── LLAMADA AL SCRIPT (JSONP para evitar CORS) ──────────
-  function callScript(params) {
-    return new Promise((resolve, reject) => {
-      const url = getUrl();
-      if (!url) { openConfig(); reject('no-url'); return; }
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
+}
 
-      const cbName = 'cb_' + Date.now();
-      params.callback = cbName;
-      const qs = new URLSearchParams(params).toString();
-      const script = document.createElement('script');
-      script.src = url + '?' + qs;
-
-      const timer = setTimeout(() => {
-        cleanup();
-        reject('timeout');
-      }, 10000);
-
-      function cleanup() {
-        clearTimeout(timer);
-        delete window[cbName];
-        if (script.parentNode) script.parentNode.removeChild(script);
-      }
-
-      window[cbName] = function(data) {
-        cleanup();
-        resolve(data);
-      };
-
-      script.onerror = () => { cleanup(); reject('error'); };
-      document.head.appendChild(script);
-    });
-  }
-
-  // ─── GUARDAR PEDIDO ───────────────────────────────────────
-  async function guardarPedido() {
-    const url = getUrl();
-    if (!url) return openConfig();
-
-    const cliente  = document.getElementById('f-cliente').value.trim();
-    const producto = document.getElementById('f-producto').value.trim();
-    const cantidad = document.getElementById('f-cantidad').value.trim();
-    const monto    = document.getElementById('f-monto').value.trim();
-    const comentarios = document.getElementById('f-comentarios').value.trim();
-
-    if (!cliente || !producto || !cantidad || !monto)
-      return showToast('Completá todos los campos');
-
-    const btn = document.getElementById('btn-guardar');
-    btn.disabled = true;
-    btn.textContent = 'Guardando...';
-
-    try {
-      await callScript({ action: 'addPedido', cliente, producto, cantidad, monto, comentarios });
-      document.getElementById('f-cliente').value = '';
-      document.getElementById('f-producto').value = '';
-      document.getElementById('f-cantidad').value = '';
-      document.getElementById('f-monto').value = '';
-      document.getElementById('f-comentarios').value = '';
-      showToast('✓ Pedido guardado');
-    } catch(e) {
-      showToast('Error al guardar. Verificá la URL.');
+function callScript(params) {
+  return new Promise(function(resolve, reject) {
+    var url = getUrl();
+    if (!url) { openConfig(); reject('no-url'); return; }
+    var cbName = 'cb_' + Date.now();
+    params.callback = cbName;
+    var qs = new URLSearchParams(params).toString();
+    var script = document.createElement('script');
+    script.src = url + '?' + qs;
+    var timer = setTimeout(function() { cleanup(); reject('timeout'); }, 10000);
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
     }
+    window[cbName] = function(data) { cleanup(); resolve(data); };
+    script.onerror = function() { cleanup(); reject('error'); };
+    document.head.appendChild(script);
+  });
+}
 
-    btn.disabled = false;
-    btn.textContent = 'Guardar pedido';
-  }
+async function guardarPedido() {
+  var url = getUrl();
+  if (!url) return openConfig();
+  var cliente  = document.getElementById('f-cliente').value.trim();
+  var producto = document.getElementById('f-producto').value.trim();
+  var cantidad = document.getElementById('f-cantidad').value.trim();
+  var monto    = document.getElementById('f-monto').value.trim();
+  var comentarios = document.getElementById('f-comentarios').value.trim();
+  if (!cliente || !producto || !cantidad || !monto) return showToast('Completá todos los campos');
+  var btn = document.getElementById('btn-guardar');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+  try {
+    await callScript({ action: 'addPedido', cliente, producto, cantidad, monto, comentarios });
+    document.getElementById('f-cliente').value = '';
+    document.getElementById('f-producto').value = '';
+    document.getElementById('f-cantidad').value = '';
+    document.getElementById('f-monto').value = '';
+    document.getElementById('f-comentarios').value = '';
+    showToast('✓ Pedido guardado');
+  } catch(e) { showToast('Error al guardar. Verificá la URL.'); }
+  btn.disabled = false; btn.textContent = 'Guardar pedido';
+}
 
-  // ─── CARGAR PEDIDOS ───────────────────────────────────────
-  async function cargarPedidos() {
-    const url = getUrl();
-    if (!url) return;
-
-    const container = document.getElementById('lista-pedidos');
-    container.innerHTML = '<div class="loading"><div class="spinner"></div> Cargando...</div>';
-
-    try {
-      const [data, prods] = await Promise.all([
-        callScript({ action: 'getPedidos' }),
-        callScript({ action: 'getCostos' })
-      ]);
-      pedidos = data.reverse();
-      costos = {};
-      prods.forEach(p => { costos[p.Producto] = parseFloat(p.Costo) || 0; });
-      renderLista();
-      renderResumen();
-      document.getElementById('badge-lista').textContent = pedidos.length;
-    } catch(e) {
-      container.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div>Error al cargar. Verificá la URL en configuración.</div>';
-    }
-  }
-
-  // ─── FILTRO ───────────────────────────────────────────────
-  function setFiltro(f, btn) {
-    filtroActual = f;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+async function cargarPedidos() {
+  var url = getUrl();
+  if (!url) return;
+  var container = document.getElementById('lista-pedidos');
+  container.innerHTML = '<div class="loading"><div class="spinner"></div> Cargando...</div>';
+  try {
+    var results = await Promise.all([
+      callScript({ action: 'getPedidos' }),
+      callScript({ action: 'getCostos' })
+    ]);
+    pedidos = results[0].reverse();
+    costos = {};
+    results[1].forEach(function(p) { costos[p.Producto] = parseFloat(p.Costo) || 0; });
     renderLista();
+    renderResumen();
+    document.getElementById('badge-lista').textContent = pedidos.length;
+  } catch(e) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div>Error al cargar.</div>';
   }
+}
 
-  function pedidosFiltrados() {
-    return pedidos.filter(p => {
-      if (filtroActual === 'pendiente-entrega') return p.Entregado === 'NO';
-      if (filtroActual === 'pendiente-pago')    return p.Pagado === 'NO';
-      if (filtroActual === 'completado')        return p.Entregado === 'SI' && p.Pagado === 'SI';
-      return true;
-    });
+function setFiltro(f, btn) {
+  filtroActual = f;
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderLista();
+}
+
+function pedidosFiltrados() {
+  return pedidos.filter(function(p) {
+    if (filtroActual === 'pendiente-entrega') return p.Entregado === 'NO';
+    if (filtroActual === 'pendiente-pago') return p.Pagado === 'NO';
+    if (filtroActual === 'completado') return p.Entregado === 'SI' && p.Pagado === 'SI';
+    return true;
+  });
+}
+
+function esc(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderLista() {
+  var container = document.getElementById('lista-pedidos');
+  var lista = pedidosFiltrados();
+  if (!lista.length) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">📋</div>No hay pedidos en esta categoría</div>';
+    return;
   }
+  container.innerHTML = lista.map(function(p) {
+    var entregado = p.Entregado === 'SI';
+    var pagado = p.Pagado === 'SI';
+    var monto = parseFloat(p.Monto) || 0;
+    var montoFmt = monto.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
+    return '<div class="pedido-card">' +
+      '<div class="pedido-top"><div class="pedido-cliente">' + esc(p.Cliente) + '</div><div class="pedido-monto">' + montoFmt + '</div></div>' +
+      '<div class="pedido-detail"><span>' + esc(p.Producto) + '</span> · cant: <span>' + esc(p.Cantidad) + '</span></div>' +
+      (p.Comentarios ? '<div class="pedido-detail" style="color:var(--accent2);font-size:11px">💬 ' + esc(p.Comentarios) + '</div>' : '') +
+      '<div class="pedido-fecha">' + esc(p.Fecha) + '</div>' +
+      '<div class="pedido-actions">' +
+      '<button class="action-btn entregado-btn' + (entregado ? ' done' : '') + '" onclick="marcar(\'' + p.ID + '\',\'Entregado\',this)"' + (entregado ? ' disabled' : '') + '>' + (entregado ? '✓ Entregado' : '📦 Marcar entregado') + '</button>' +
+      '<button class="action-btn pagado-btn' + (pagado ? ' done' : '') + '" onclick="marcar(\'' + p.ID + '\',\'Pagado\',this)"' + (pagado ? ' disabled' : '') + '>' + (pagado ? '✓ Cobrado' : '💰 Marcar cobrado') + '</button>' +
+      '</div></div>';
+  }).join('');
+}
 
-  // ─── RENDER LISTA ─────────────────────────────────────────
-  function renderLista() {
-    const container = document.getElementById('lista-pedidos');
-    const lista = pedidosFiltrados();
+function fmt(n) { return n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }); }
 
-    if (!lista.length) {
-      container.innerHTML = '<div class="empty"><div class="empty-icon">📋</div>No hay pedidos en esta categoría</div>';
-      return;
-    }
+function renderResumen() {
+  var sinEntregar = pedidos.filter(function(p) { return p.Entregado === 'NO'; }).length;
+  var sinCobrar   = pedidos.filter(function(p) { return p.Pagado === 'NO'; }).length;
+  var cobrados    = pedidos.filter(function(p) { return p.Pagado === 'SI'; }).length;
+  var totalMonto  = pedidos.reduce(function(s,p) { return s + (parseFloat(p.Monto)||0); }, 0);
+  var totalCobrado = pedidos.filter(function(p) { return p.Pagado==='SI'; }).reduce(function(s,p) { return s+(parseFloat(p.Monto)||0); }, 0);
+  document.getElementById('stat-pendientes').textContent = sinEntregar;
+  document.getElementById('stat-entregados').textContent = sinCobrar;
+  document.getElementById('stat-pagados').textContent = cobrados;
+  document.getElementById('total-pedidos-monto').textContent = fmt(totalMonto);
+  document.getElementById('total-cobrado').textContent = fmt(totalCobrado);
+  document.getElementById('total-pendiente').textContent = fmt(totalMonto - totalCobrado);
+  if (resumenTab === 'semanal') renderSemanal();
+  if (resumenTab === 'mensual') renderMensual();
+}
 
-    container.innerHTML = lista.map(p => {
-      const entregado = p.Entregado === 'SI';
-      const pagado    = p.Pagado === 'SI';
-      const monto = parseFloat(p.Monto) || 0;
-      const montoFmt = monto.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
+function parseFecha(str) {
+  if (!str) return null;
+  var m = String(str).match(/(\d{2})-(\d{2})-(\d{4})\s+(\d{2}):(\d{2})/);
+  if (m) return new Date(m[3], m[2]-1, m[1], m[4], m[5]);
+  var d = new Date(str);
+  return isNaN(d) ? null : d;
+}
 
-      return `
-        <div class="pedido-card" id="card-${p.ID}">
-          <div class="pedido-top">
-            <div class="pedido-cliente">${esc(p.Cliente)}</div>
-            <div class="pedido-monto">${montoFmt}</div>
-          </div>
-          <div class="pedido-detail">
-            <span>${esc(p.Producto)}</span> &nbsp;·&nbsp; cant: <span>${esc(p.Cantidad)}</span>
-          </div>
-          ${p.Comentarios ? `<div class="pedido-detail" style="color:var(--accent2); font-size:11px">💬 ${esc(p.Comentarios)}</div>` : ''}
-          <div class="pedido-fecha">${esc(p.Fecha)}</div>
-          <div class="pedido-actions">
-            <button
-              class="action-btn entregado-btn ${entregado ? 'done' : ''}"
-              onclick="marcar('${p.ID}', 'Entregado', this)"
-              ${entregado ? 'disabled' : ''}
-            >${entregado ? '✓ Entregado' : '📦 Marcar entregado'}</button>
-            <button
-              class="action-btn pagado-btn ${pagado ? 'done' : ''}"
-              onclick="marcar('${p.ID}', 'Pagado', this)"
-              ${pagado ? 'disabled' : ''}
-            >${pagado ? '✓ Cobrado' : '💰 Marcar cobrado'}</button>
-          </div>
-        </div>`;
-    }).join('');
+function getLunes(date) {
+  var d = new Date(date);
+  var day = d.getDay();
+  d.setDate(d.getDate() + (day === 0 ? -6 : 1 - day));
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function calcGanancia(filtered) {
+  return filtered.reduce(function(s, p) {
+    var costo = parseFloat(p.Costo) || 0;
+    var monto = parseFloat(p.Monto) || 0;
+    return s + (monto - costo);
+  }, 0);
+}
+
+function desglosePorProducto(filtered) {
+  var map = {};
+  filtered.forEach(function(p) {
+    var prod  = p.Producto || 'Otro';
+    var costo = parseFloat(p.Costo) || 0;
+    var cant  = parseFloat(p.Cantidad) || 0;
+    var monto = parseFloat(p.Monto) || 0;
+    if (!map[prod]) map[prod] = { monto: 0, costo: 0, cant: 0 };
+    map[prod].monto += monto;
+    map[prod].costo += costo;
+    map[prod].cant  += cant;
+  });
+  return Object.entries(map).map(function(e) {
+    return { prod: e[0], cant: e[1].cant, monto: e[1].monto, ganancia: e[1].monto - e[1].costo };
+  });
+}
+
+function renderPeriodStats(container, filtered) {
+  var total     = filtered.reduce(function(s,p) { return s+(parseFloat(p.Monto)||0); }, 0);
+  var cobrado   = filtered.filter(function(p) { return p.Pagado==='SI'; }).reduce(function(s,p) { return s+(parseFloat(p.Monto)||0); }, 0);
+  var cant      = filtered.length;
+  var sinEntrega = filtered.filter(function(p) { return p.Entregado==='NO'; }).length;
+  var cobradosCant = filtered.filter(function(p) { return p.Pagado==='SI'; }).length;
+  var ganancia  = calcGanancia(filtered);
+  var desglose  = desglosePorProducto(filtered);
+
+  var desgloseHTML = desglose.length ? desglose.map(function(d) {
+    return '<div class="period-row" style="flex-direction:column;align-items:flex-start;gap:2px">' +
+      '<div style="display:flex;justify-content:space-between;width:100%">' +
+      '<span style="color:var(--text)">' + esc(d.prod) + '</span>' +
+      '<span style="color:var(--accent);font-family:var(--font-display);font-weight:700">' + fmt(d.ganancia) + '</span></div>' +
+      '<span style="font-size:11px;color:var(--text3)">' + d.cant + ' unid · facturado ' + fmt(d.monto) + '</span></div>';
+  }).join('') : '<div style="font-size:12px;color:var(--text3);padding:8px 0">Sin pedidos en este período</div>';
+
+  container.innerHTML =
+    '<div class="stats" style="margin-bottom:10px">' +
+    '<div class="stat pedidos"><div class="stat-num">' + cant + '</div><div class="stat-label">Pedidos</div></div>' +
+    '<div class="stat entregas"><div class="stat-num">' + sinEntrega + '</div><div class="stat-label">Sin entregar</div></div>' +
+    '<div class="stat pagos"><div class="stat-num">' + cobradosCant + '</div><div class="stat-label">Cobrados</div></div>' +
+    '</div>' +
+    '<div class="form-card" style="margin-bottom:10px">' +
+    '<div class="period-row"><span class="period-row-label">Facturación</span><span class="period-row-val">' + fmt(total) + '</span></div>' +
+    '<div class="period-row"><span class="period-row-label">Cobrado</span><span class="period-row-val" style="color:var(--green)">' + fmt(cobrado) + '</span></div>' +
+    '<div class="period-row"><span class="period-row-label">Pendiente</span><span class="period-row-val" style="color:var(--accent3)">' + fmt(total-cobrado) + '</span></div>' +
+    '<div class="period-row"><span class="period-row-label" style="color:var(--text);font-weight:700">Ganancia estimada</span><span class="period-row-val" style="color:var(--accent);font-size:16px">' + fmt(ganancia) + '</span></div>' +
+    '</div>' +
+    '<div class="form-card"><h2 style="font-size:13px;color:var(--text2);margin-bottom:12px">GANANCIA POR PRODUCTO</h2>' + desgloseHTML + '</div>';
+}
+
+function cambiarSemana(dir) { semanaOffset += dir; renderSemanal(); }
+function renderSemanal() {
+  var hoy = new Date();
+  var lunes = getLunes(hoy);
+  lunes.setDate(lunes.getDate() + semanaOffset * 7);
+  var domingo = new Date(lunes);
+  domingo.setDate(domingo.getDate() + 6);
+  domingo.setHours(23,59,59,999);
+  var fmtD = function(d) { return d.toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit' }); };
+  document.getElementById('label-semana').textContent = fmtD(lunes) + ' – ' + fmtD(domingo);
+  document.getElementById('btn-next-semana').disabled = semanaOffset >= 0;
+  var filtered = pedidos.filter(function(p) { var d = parseFecha(p.Fecha); return d && d >= lunes && d <= domingo; });
+  renderPeriodStats(document.getElementById('stats-semana'), filtered);
+}
+
+function cambiarMes(dir) { mesOffset += dir; renderMensual(); }
+function renderMensual() {
+  var hoy = new Date();
+  var inicio = new Date(hoy.getFullYear(), hoy.getMonth() + mesOffset, 1);
+  var fin    = new Date(hoy.getFullYear(), hoy.getMonth() + mesOffset + 1, 0, 23, 59, 59, 999);
+  var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  document.getElementById('label-mes').textContent = meses[inicio.getMonth()] + ' ' + inicio.getFullYear();
+  document.getElementById('btn-next-mes').disabled = mesOffset >= 0;
+  var filtered = pedidos.filter(function(p) { var d = parseFecha(p.Fecha); return d && d >= inicio && d <= fin; });
+  renderPeriodStats(document.getElementById('stats-mes'), filtered);
+}
+
+async function marcar(id, campo, btn) {
+  btn.disabled = true; btn.textContent = '...';
+  try {
+    await callScript({ action: 'updateEstado', id: id, campo: campo });
+    var p = pedidos.find(function(x) { return x.ID.toString() === id.toString(); });
+    if (p) p[campo] = 'SI';
+    renderLista(); renderResumen();
+    showToast('✓ ' + (campo === 'Entregado' ? 'Entrega' : 'Cobro') + ' registrado');
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = campo === 'Entregado' ? '📦 Marcar entregado' : '💰 Marcar cobrado';
+    showToast('Error al actualizar');
   }
+}
 
-  // ─── RESUMEN SUB-TABS ─────────────────────────────────────
-  let resumenTab = 'general';
-  let semanaOffset = 0;
-  let mesOffset = 0;
-
-  function switchResumen(tab) {
-    resumenTab = tab;
-    ['general','semanal','mensual'].forEach(t => {
-      document.getElementById('rview-' + t).style.display = t === tab ? 'block' : 'none';
-      document.getElementById('rtab-' + t).classList.toggle('active', t === tab);
-    });
-    if (tab === 'semanal') renderSemanal();
-    if (tab === 'mensual') renderMensual();
-  }
-
-  // ─── RENDER RESUMEN GENERAL ───────────────────────────────
-  function renderResumen() {
-    const sinEntregar = pedidos.filter(p => p.Entregado === 'NO').length;
-    const sinCobrar   = pedidos.filter(p => p.Pagado === 'NO').length;
-    const cobrados    = pedidos.filter(p => p.Pagado === 'SI').length;
-
-    const totalMonto     = pedidos.reduce((s, p) => s + (parseFloat(p.Monto) || 0), 0);
-    const totalCobrado   = pedidos.filter(p => p.Pagado === 'SI').reduce((s, p) => s + (parseFloat(p.Monto) || 0), 0);
-    const totalPendiente = totalMonto - totalCobrado;
-
-    const fmt = n => n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
-
-    document.getElementById('stat-pendientes').textContent    = sinEntregar;
-    document.getElementById('stat-entregados').textContent    = sinCobrar;
-    document.getElementById('stat-pagados').textContent       = cobrados;
-    document.getElementById('total-pedidos-monto').textContent = fmt(totalMonto);
-    document.getElementById('total-cobrado').textContent      = fmt(totalCobrado);
-    document.getElementById('total-pendiente').textContent    = fmt(totalPendiente);
-
-    if (resumenTab === 'semanal') renderSemanal();
-    if (resumenTab === 'mensual') renderMensual();
-  }
-
-  // ─── PARSEAR FECHA dd-MM-yyyy HH:mm ───────────────────────
-  function parseFecha(str) {
-    if (!str) return null;
-    // formato: dd-MM-yyyy HH:mm
-    const m = String(str).match(/(\d{2})-(\d{2})-(\d{4})\s+(\d{2}):(\d{2})/);
-    if (m) return new Date(m[3], m[2]-1, m[1], m[4], m[5]);
-    // fallback
-    const d = new Date(str);
-    return isNaN(d) ? null : d;
-  }
-
-  function getLunes(date) {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = (day === 0 ? -6 : 1 - day);
-    d.setDate(d.getDate() + diff);
-    d.setHours(0,0,0,0);
-    return d;
-  }
-
-  function fmt(n) {
-    return n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
-  }
-
-  function calcGanancia(filtered) {
-    return filtered.reduce((s, p) => {
-      const costo = parseFloat(p.Costo) || 0;
-      const monto = parseFloat(p.Monto) || 0;
-      return s + (monto - costo);
-    }, 0);
-  }
-
-  function desglosePorProducto(filtered) {
-    const map = {};
-    filtered.forEach(p => {
-      const prod  = p.Producto || 'Otro';
-      const costo = parseFloat(p.Costo) || 0;
-      const cant  = parseFloat(p.Cantidad) || 0;
-      const monto = parseFloat(p.Monto) || 0;
-      if (!map[prod]) map[prod] = { monto: 0, costo: 0, cant: 0 };
-      map[prod].monto += monto;
-      map[prod].costo += costo;
-      map[prod].cant  += cant;
-    });
-    return Object.entries(map).map(([prod, v]) => ({
-      prod, cant: v.cant,
-      monto: v.monto,
-      ganancia: v.monto - v.costo
-    }));
-  }
-
-  function renderPeriodStats(container, filtered) {
-    const total      = filtered.reduce((s, p) => s + (parseFloat(p.Monto) || 0), 0);
-    const cobrado    = filtered.filter(p => p.Pagado === 'SI').reduce((s, p) => s + (parseFloat(p.Monto) || 0), 0);
-    const pendiente  = total - cobrado;
-    const cant       = filtered.length;
-    const sinEntrega = filtered.filter(p => p.Entregado === 'NO').length;
-    const ganancia   = calcGanancia(filtered);
-    const desglose   = desglosePorProducto(filtered);
-
-    const desgloseHTML = desglose.length ? desglose.map(d => `
-      <div class="period-row" style="flex-direction:column; align-items:flex-start; gap:2px">
-        <div style="display:flex; justify-content:space-between; width:100%">
-          <span class="period-row-label" style="color:var(--text)">${esc(d.prod)}</span>
-          <span class="period-row-val" style="color:var(--accent); font-size:13px">${fmt(d.ganancia)}</span>
-        </div>
-        <span style="font-size:11px; color:var(--text3)">${d.cant} unid · facturado ${fmt(d.monto)}</span>
-      </div>`).join('') : '<div style="font-size:12px;color:var(--text3);padding:8px 0">Sin pedidos en este período</div>';
-
-    container.innerHTML = \`
-      <div class="stats" style="margin-bottom:10px">
-        <div class="stat pedidos"><div class="stat-num">\${cant}</div><div class="stat-label">Pedidos</div></div>
-        <div class="stat entregas"><div class="stat-num">\${sinEntrega}</div><div class="stat-label">Sin entregar</div></div>
-        <div class="stat pagos"><div class="stat-num">\${filtered.filter(p=>p.Pagado==='SI').length}</div><div class="stat-label">Cobrados</div></div>
-      </div>
-      <div class="form-card period-stats">
-        <div class="period-row">
-          <span class="period-row-label">Facturación total</span>
-          <span class="period-row-val">\${fmt(total)}</span>
-        </div>
-        <div class="period-row">
-          <span class="period-row-label">Cobrado</span>
-          <span class="period-row-val" style="color:var(--green)">\${fmt(cobrado)}</span>
-        </div>
-        <div class="period-row">
-          <span class="period-row-label">Pendiente de cobro</span>
-          <span class="period-row-val" style="color:var(--accent3)">\${fmt(pendiente)}</span>
-        </div>
-        <div class="period-row">
-          <span class="period-row-label" style="font-weight:700; color:var(--text)">Ganancia estimada</span>
-          <span class="period-row-val" style="color:var(--accent); font-size:16px">\${fmt(ganancia)}</span>
-        </div>
-      </div>
-      <div class="form-card" style="margin-top:10px">
-        <h2 style="font-size:13px; color:var(--text2); margin-bottom:12px">GANANCIA POR PRODUCTO</h2>
-        \${desgloseHTML}
-      </div>\`;
-  }
-
-  // ─── SEMANAL ──────────────────────────────────────────────
-  function cambiarSemana(dir) {
-    semanaOffset += dir;
-    renderSemanal();
-  }
-
-  function renderSemanal() {
-    const hoy    = new Date();
-    const lunes  = getLunes(hoy);
-    lunes.setDate(lunes.getDate() + semanaOffset * 7);
-    const domingo = new Date(lunes);
-    domingo.setDate(domingo.getDate() + 6);
-    domingo.setHours(23,59,59,999);
-
-    const fmtD = d => d.toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit' });
-    document.getElementById('label-semana').textContent =
-      fmtD(lunes) + ' – ' + fmtD(domingo);
-    document.getElementById('btn-next-semana').disabled = semanaOffset >= 0;
-
-    const filtered = pedidos.filter(p => {
-      const d = parseFecha(p.Fecha);
-      return d && d >= lunes && d <= domingo;
-    });
-
-    renderPeriodStats(document.getElementById('stats-semana'), filtered);
-  }
-
-  // ─── MENSUAL ──────────────────────────────────────────────
-  function cambiarMes(dir) {
-    mesOffset += dir;
-    renderMensual();
-  }
-
-  function renderMensual() {
-    const hoy    = new Date();
-    const inicio = new Date(hoy.getFullYear(), hoy.getMonth() + mesOffset, 1);
-    const fin    = new Date(hoy.getFullYear(), hoy.getMonth() + mesOffset + 1, 0, 23, 59, 59, 999);
-
-    const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-    document.getElementById('label-mes').textContent =
-      meses[inicio.getMonth()] + ' ' + inicio.getFullYear();
-    document.getElementById('btn-next-mes').disabled = mesOffset >= 0;
-
-    const filtered = pedidos.filter(p => {
-      const d = parseFecha(p.Fecha);
-      return d && d >= inicio && d <= fin;
-    });
-
-    renderPeriodStats(document.getElementById('stats-mes'), filtered);
-  }
-
-  // ─── MARCAR ───────────────────────────────────────────────
-  async function marcar(id, campo, btn) {
-    btn.disabled = true;
-    btn.textContent = '...';
-
-    try {
-      await callScript({ action: 'updateEstado', id, campo });
-      const p = pedidos.find(x => x.ID.toString() === id.toString());
-      if (p) p[campo] = 'SI';
-      renderLista();
-      renderResumen();
-      showToast(`✓ ${campo === 'Entregado' ? 'Entrega' : 'Cobro'} registrado`);
-    } catch(e) {
-      btn.disabled = false;
-      btn.textContent = campo === 'Entregado' ? '📦 Marcar entregado' : '💰 Marcar cobrado';
-      showToast('Error al actualizar');
-    }
-  }
-
-  function esc(str) {
-    return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  // ─── INIT ─────────────────────────────────────────────────
-  if (!getUrl()) {
-    setTimeout(openConfig, 600);
-  }
+if (!getUrl()) { setTimeout(openConfig, 600); }
 </script>
 </body>
 </html>
-
