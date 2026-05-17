@@ -123,6 +123,25 @@
     }
     input:focus { border-color: var(--accent); }
     input::placeholder { color: var(--text3); }
+    select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-mono); font-size: 14px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color .2s;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
+    }
+    select:focus { border-color: var(--accent); }
+    select option { background: var(--surface2); color: var(--text); }
 
     .btn-primary {
       width: 100%; margin-top: 16px;
@@ -336,8 +355,14 @@
           <input id="f-cliente" type="text" placeholder="Nombre del cliente" autocomplete="off" />
         </div>
         <div class="full">
-          <label>Producto / Descripción</label>
-          <input id="f-producto" type="text" placeholder="¿Qué pidió?" autocomplete="off" />
+          <label>Producto</label>
+          <select id="f-producto">
+            <option value="">-- Seleccioná un producto --</option>
+            <option value="Chipa">Chipa</option>
+            <option value="Chipa sin sal">Chipa sin sal</option>
+            <option value="Pizzeta horneada">Pizzeta horneada</option>
+            <option value="Pizzeta cruda">Pizzeta cruda</option>
+          </select>
         </div>
         <div>
           <label>Cantidad</label>
@@ -809,3 +834,4 @@
 </script>
 </body>
 </html>
+
